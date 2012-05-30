@@ -1,5 +1,5 @@
 require 'mongo'
-require 'json'
+require 'yajl'
 
 coll = Mongo::Connection.new('localhost').db('raagadhar').collection('raagas')
 
@@ -20,7 +20,7 @@ def split_swara(swaras = "")
 	end
 end
 
-file = JSON.parse(File.open('kksongs.json','r', :encoding => 'utf-8').read())
+file = Yajl.parse(File.open('kksongs.json','r', :encoding => 'utf-8').read())
 file.each do |json|
 	puts json["name"].capitalize
 	split_swara(json["Aroha"])
