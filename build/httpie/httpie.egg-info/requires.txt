@@ -1,2 +1,0 @@
-requests>=0.10.1
-Pygments>=1.4
