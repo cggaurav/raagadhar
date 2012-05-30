@@ -10,5 +10,5 @@ else
 end
 
 get '/' do
-	"A whole new world of Raaga information"
+	erb :index
 end
