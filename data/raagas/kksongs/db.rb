@@ -20,7 +20,7 @@ def split_swara(swaras = "")
 	end
 end
 
-file = Yajl.parse(File.open('kksongs.json','r', :encoding => 'utf-8').read())
+file = Yajl::Parser.parse(File.open('kksongs.json','r', :encoding => 'utf-8').read())
 file.each do |json|
 	puts json["name"].capitalize
 	split_swara(json["Aroha"])
