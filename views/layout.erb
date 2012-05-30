@@ -11,7 +11,8 @@
     <![endif]--> 
 
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" >
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
 
   <!--
     <link rel="shortcut icon" href="images/favicon.ico"> 
@@ -36,6 +37,10 @@
 -->
 	<div class="container">
 	  <%= yield %>
-  </div> <!-- /container -->
+  </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap-typeahead.js"></script>
   </body> 
 </html>
