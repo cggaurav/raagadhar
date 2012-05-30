@@ -22,7 +22,7 @@ end
 
 file = Yajl::Parser.parse(File.open('kksongs.json','r', :encoding => 'utf-8').read())
 file.each do |json|
-	puts json["name"].capitalize
+	puts json["name"].capitalize!
 	split_swara(json["Aroha"])
 	coll.insert(json)
 end
