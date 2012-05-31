@@ -173,7 +173,6 @@ a {
 
 a:hover {
   color: #005580;
-  text-decoration: underline;
 }
 
 .row {
@@ -447,7 +446,8 @@ h3,
 h4,
 h5,
 h6,
-hg {
+hg,
+hg1{
   margin: 0;
   font-family: inherit;
   font-weight: bold;
@@ -470,8 +470,15 @@ hg {
   font-size: 80px;
   font-weight: normal;
   font-family: 'Pacifico', cursive;
-  color: #919191;
 }
+
+hg1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: normal;
+  font-family: 'Pacifico', cursive;
+}
+
 h1 {
   font-size: 30px;
   line-height: 36px;
@@ -4954,6 +4961,12 @@ a.badge:hover {
   margin-bottom: 30px;
 }
 
+.zero {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .hero-unit h1 {
   margin-bottom: 0;
   font-size: 60px;

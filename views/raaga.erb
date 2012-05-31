@@ -1,14 +1,13 @@
-<div class="hero"> 
-	<hg>Raagadhar</hg></br></br></br>
-	<h2> Results </h2>
+<div class="zero"> 
+	<hg1><a href="http://raagadhar.heroku.com">Raagadhar</a></hg1>
 </div> 
 <% @raaga_json.each do |result| %>
 	<div class="row">
-	<h3> <%=result["_source"]["name"]%></h3></br>
+	<h2> Raaga <%=result["_source"]["name"]%></h2></br>
 		<table class="table table-bordered table-striped">
 	        <tbody>
 	         	<% result["_source"].each do |k,v| %>
-	         	<% if k!="url" %>
+	         	<% if k!="url" and k!="name" %>
 	         	<tr>
 	         		<td><%=k%></td>
 	         		<td><%=v%></td>
@@ -17,5 +16,12 @@
 	         	<% end %>
 	        </tbody>
 		</table>
+	</div>
+	<div class="row">
+		<div class="span 6">
+			<h2> On Spotify</h2></br>
+			<iframe src=<%=@spotifylist%> width="400" height="380" frameborder="0" allowtransparency="true">
+			</iframe>
+		</div>
 	</div>
 <% end %>
