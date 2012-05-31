@@ -3,10 +3,14 @@
 </div>
 <div class="row">
 	<div class="span12">
-		<h2><%=@definition["name"]%></h2></br>
-		<p><%=@definition["definition"]%></p>
-		<% if @definition["url"] %>
-			</br><p><a href="<%=@definition["url"]%>">Source</a></p>
+		<% if @definition %>
+			<h2><%=@definition["name"]%></h2></br>
+			<p><%=@definition["definition"]%></p>
+			<% if @definition["url"] %>
+				</br><p><a href="<%=@definition["url"]%>">Source</a></p>
+			<% end %>
+		<% else %>
+			<h4>Sorry, no information was found</h4></br>
 		<% end %>
 	</div>
 </div>
