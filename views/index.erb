@@ -1,4 +1,25 @@
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		var url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?fields=name&size=90";
+	    $.ajax({
+	        type: 'GET',
+	        url: url,
+	        dataType: 'json',
+	        success: function(o){
+	        	var raagas = [];
+	        	result = o.hits.hits;
+	            for(var i=0; i<result.length;i++){
+	             	raagas.push(result[i].fields.name);
+	            }
+	            $('#actor').typeahead({ source: raagas, items: 5 });
+	         },
+	         error: function (xhr, ajaxOptions, thrownError){
+	             console.log(thrownError);
+	         }
+	    });
+	});
+</script>
 <div class="hero"> 
 	<hg>Raagadhar</hg>
 </div>
@@ -7,8 +28,8 @@
 	</br>
 </div>
 <div>
-  <form class="search" >
-	<input type="text" class="search-query" data-provide="typeahead">
+  <form class="search" action="/raaga">
+  	<input data-provide="typeahead" type="text" class="search-query" id="actor" value='try "Malhar"' name="raaga"onfocus="this.value=''">
     </br></br>
     <button type="submit" class="btn">Search</button>
   </form>

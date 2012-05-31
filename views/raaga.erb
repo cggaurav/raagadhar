@@ -1,0 +1,21 @@
+<div class="hero"> 
+	<hg>Raagadhar</hg></br></br></br>
+	<h2> Results </h2>
+</div> 
+<% @raaga_json.each do |result| %>
+	<div class="row">
+	<h3> <%=result["_source"]["name"]%></h3></br>
+		<table class="table table-bordered table-striped">
+	        <tbody>
+	         	<% result["_source"].each do |k,v| %>
+	         	<% if k!="url" %>
+	         	<tr>
+	         		<td><%=k%></td>
+	         		<td><%=v%></td>
+	         	</tr>
+	         	<% end %>
+	         	<% end %>
+	        </tbody>
+		</table>
+	</div>
+<% end %>
