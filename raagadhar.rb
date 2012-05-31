@@ -42,10 +42,11 @@ end
 
 
 get '/raaga' do 
-	raaga = params[:raaga].downcase
+	raaga = params[:raaga]
 	if(raaga == nil)
 		redirect '/'
 	else
+		raaga.downcase!
 		@spotifylist = get_spotify_playlist(raaga)
 		url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?q=name:#{raaga}"
 		@raaga_json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
