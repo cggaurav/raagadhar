@@ -4,6 +4,7 @@ GEM
     bson (1.6.2)
     mongo (1.6.2)
       bson (~> 1.6.2)
+    patron (0.4.18)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -19,5 +20,6 @@ PLATFORMS
 
 DEPENDENCIES
   mongo
+  patron
   redis
   sinatra
