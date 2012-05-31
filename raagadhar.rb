@@ -52,7 +52,7 @@ get '/define/:raaga' do
 	url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/definitions/_search?q=name:#{raaga}"
 	@definition = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"][0]["_source"]
 	puts @definition
-	erb :define
+	erb :define if (@definition)
 end
 
 
