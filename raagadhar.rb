@@ -15,7 +15,7 @@ end
 
 def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
-	url = "http://ws.spotify.com/search/1/track.json?q=raga {raaga}"
+	url = "http://ws.spotify.com/search/1/track.json?q=raga #{raaga}"
 	puts url
 	begin
 		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
