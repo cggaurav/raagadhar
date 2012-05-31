@@ -19,9 +19,10 @@
 	</div>
 	<div class="row">
 		<div class="span 6">
+			<% if @spotifylist!=nil || @spotifylist=="" %>
 			<h2> On Spotify</h2></br>
-			<iframe src=<%=@spotifylist%> width="400" height="380" frameborder="0" allowtransparency="true">
-			</iframe>
+				<iframe src=<%=@spotifylist%> width="400" height="380" frameborder="0" allowtransparency="true"></iframe>
+			<% end %>
 		</div>
 	</div>
 <% end %>
