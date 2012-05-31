@@ -1,12 +1,12 @@
-<div class="topbar"> 
-  <div class="fill"> 
-    <div class="container fixed"> 
-      <h3><a href="#">Raagadhar</a></h3> 
-      <ul> 
-        <li class="active"><a href="#">Home</a></li> 
-        <li><a href="#about">About</a></li> 
-      </ul> 
-    </div> 
-  </div> 
+<div class="zero"> 
+	<hg1><a href="http://raagadhar.heroku.com">Raagadhar</a></hg1>
 </div>
-
+<div class="row">
+	<div class="span12">
+		<h2><%=@definition["name"]%></h2></br>
+		<p><%=@definition["definition"]%></p>
+		<% if @definition["url"] %>
+			</br><p><a href="<%=@definition["url"]%>">Source</a></p>
+		<% end %>
+	</div>
+</div>

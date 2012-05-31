@@ -4,12 +4,13 @@
 <% @raaga_json.each do |result| %>
 	<div class="row">
 	<h2> Raaga <%=result["_source"]["name"]%></h2></br>
+	<h4> <%=result["_source"]["Information"]%></h4></br>
 		<table class="table table-bordered table-striped">
 	        <tbody>
 	         	<% result["_source"].each do |k,v| %>
-	         	<% if k!="url" and k!="name" %>
+	         	<% if k!="url" and k!="name" and k!="Information"%>
 	         	<tr>
-	         		<td><%=k%></td>
+	         		<td><a href="/define/<%=k%>"><%=k%></a></td>
 	         		<td><%=v%></td>
 	         	</tr>
 	         	<% end %>

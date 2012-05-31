@@ -31,7 +31,8 @@ def get_spotify_playlist(raaga)
 	end
 	puts list
 	listcsv = list.join(",")
-	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{raaga}:#{listcsv}"	
+	listname = raaga.capitalize
+	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{listname}:#{listcsv}"	
 	puts return_url
 	return_url
 end
@@ -45,7 +46,12 @@ get '/' do
 end
 
 get '/define/:raaga' do
-	@raaga = params[:raaga]
+	raaga = params[:raaga]
+	puts raaga
+	raaga.downcase!
+	url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/definitions/_search?q=name:#{raaga}"
+	@definition = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"][0]["_source"]
+	puts @definition
 	erb :define
 end
 
