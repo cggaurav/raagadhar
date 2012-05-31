@@ -17,14 +17,21 @@ sess = Patron::Session.new
 sess.headers['User-Agent'] = 'Gaurav/1.1'
 sess.headers['Host'] =  "index.bonsai.io"
 sess.enable_debug "/tmp/patron.debug"
-
+sess.timeout = 10000
 coll = Mongo::Connection.new('localhost').db('raagadhar').collection('raagas')
+	
+#Delete all ids
+# (0..101).each do |i|
+# 	sess.delete("http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/#{i}")
+# end
 
 coll.find().each_with_index do |i,j|
 	hash = i.to_h
 	puts hash.inspect
 	hash.delete("_id")
+	hash["name"] = hash["name"].gsub("_"," ").capitalize
 	json = hash.to_json
 	puts json.inspect
 	sess.post("http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/#{j}", json , {"Content-Type" => "application/x-www-form-urlencoded"})
+	sess.post("http://index.bonsai.io/7bfy61vro8h8nothcjzz/raagas/#{j}", json , {"Content-Type" => "application/x-www-form-urlencoded"})
 end
