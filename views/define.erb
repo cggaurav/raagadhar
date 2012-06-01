@@ -5,7 +5,7 @@
 	<div class="span12">
 		<% if @definition %>
 			<h2><%=@definition["name"]%></h2></br>
-			<p><%=@definition["definition"]%></p>
+			<p><%=@definition["definition"].gsub("â","'")%></p>
 			<% if @definition["url"] %>
 				</br><p><a href="<%=@definition["url"]%>">Source</a></p>
 			<% end %>
