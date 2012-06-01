@@ -17,15 +17,14 @@ end
 Mail.defaults do
   delivery_method :smtp, {
     :address => 'smtp.sendgrid.net',
-    :port => '587',
+    :port => 587,
     :domain => 'heroku.com',
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
-    :authentication => :plain,
+    :authentication => 'plain',
     :enable_starttls_auto => true
   }
 end
-
 
 def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
@@ -88,6 +87,7 @@ end
 
 
 get '/submit' do
+	@status = params[:status]
 	erb :submit
 end
 
@@ -104,5 +104,5 @@ post '/donesubmitting' do
 	    	body feedback
 	  	end
 	end
-	redirect '/'
+	redirect '/submit?status=true'
 end

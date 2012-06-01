@@ -1,6 +1,11 @@
 <div class="zero"> 
 	<hg1><a href="http://raagadhar.heroku.com">Raagadhar</a></hg1>
 </div>
+<% if (@status=="true") %>
+	<div class="alert-message success">
+	    <p><strong>Thanks for submitting</strong></p>
+	</div>
+<% end %>
 <form class="form-horizontal" action="/donesubmitting" method="post">
   <fieldset>
 	<div class="control-group">
