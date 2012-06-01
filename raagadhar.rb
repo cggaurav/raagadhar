@@ -4,6 +4,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'json'
 require 'timeout'
+require 'mail'
 
 if ENV['MONGOHQ_URL']
 	uri = URI.parse(ENV['MONGOHQ_URL'])
@@ -12,6 +13,19 @@ if ENV['MONGOHQ_URL']
 else
   	db = Mongo::Connection.new('localhost').db('raagadhar')
 end
+
+Mail.defaults do
+  delivery_method :smtp, {
+    :address => 'smtp.sendgrid.net',
+    :port => '587',
+    :domain => 'heroku.com',
+    :user_name => ENV['SENDGRID_USERNAME'],
+    :password => ENV['SENDGRID_PASSWORD'],
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+end
+
 
 def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
@@ -74,5 +88,21 @@ end
 
 
 get '/submit' do
-	
+	erb :submit
+end
+
+post '/donesubmitting' do
+	puts params.inspect
+	name = params[:name]
+	email = params[:email]
+	feedback = params[:feedback]
+	mail = Mail.deliver do
+		to 'cggaurav@gmail.com'
+	  	from name + " <" + email + ">"
+	  	subject 'Feedback for Raagadhar!'
+	  	text_part do
+	    	body feedback
+	  	end
+	end
+	redirect '/'
 end
