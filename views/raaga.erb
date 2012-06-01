@@ -24,7 +24,7 @@
 	         	<% if k!="url" and k!="name" and k!="Information"%>
 	         	<tr>
 	         		<td><a href="/define/<%=k%>"><%=k%></a></td>
-	         		<td><%=v.gsub("â","'").gsub("Â","'")%></td>
+	         		<td><%=v.gsub("â","\"").gsub("Â","'")%></td>
 	         	</tr>
 	         	<% end %>
 	         	<% end %>
