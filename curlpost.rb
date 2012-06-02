@@ -38,7 +38,7 @@ def insert(index)
 	sess.headers['User-Agent'] = 'Gaurav/1.1'
 	sess.headers['Host'] =  "index.bonsai.io"
 	sess.enable_debug "/tmp/patron_insert.debug"
-	sess.timeout = 10000
+	sess.timeout = 100
 	coll.find().each_with_index do |i,j|
 		hash = i.to_h
 		puts hash.inspect
@@ -68,4 +68,4 @@ def definitions()
 	end
 end
 
-definitions()
+insert("test")

@@ -3,6 +3,7 @@
 </div> 
 <% @raaga_json.each do |result| %>
 <div class="row">
+	</br><h2> Raaga <%=result["_source"]["name"]%></h2></br>
 	<div class="span6">
 		<% if @spotifylist!=nil || @spotifylist=="" %>
 		<h2>On Spotify</h2></br>
@@ -16,7 +17,6 @@
 	</div>
 </div>
 	<div class="row">
-	</br><h2> Raaga <%=result["_source"]["name"]%></h2></br>
 	<p> <%=result["_source"]["Information"].gsub("â","'").gsub("Â","'")%></p></br>
 		<table class="table table-bordered table-striped">
 	        <tbody>

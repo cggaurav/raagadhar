@@ -31,7 +31,7 @@ def get_spotify_playlist(raaga)
 	raaga.gsub!("try","")
 	url = "http://ws.spotify.com/search/1/track.json?q=raga #{raaga}"
 	begin
-		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
+		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 4, "User-Agent" => "Mozilla/5.0"})))
 	rescue Timeout::Error
 		puts "TIMEOUT for #{url}"
 		return nil
@@ -61,7 +61,7 @@ get '/define/:raaga' do
 	raaga = params[:raaga]
 	puts raaga
 	raaga.downcase!
-	url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/definitions/_search?q=name:#{raaga}"
+	url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/definitions/_search?q=#{raaga}"
 	json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
 	if(json[0])
 		@definition = json[0]["_source"]
