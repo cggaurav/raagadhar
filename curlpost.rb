@@ -12,6 +12,8 @@ class BSON::OrderedHash
   end
 end
 
+$coll = Mongo::Connection.new('localhost').db('raagadhar').collection('raagas')
+
 $base_url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz"
 #coll = Mongo::Connection.new('localhost').db('raagadhar').collection('raagas')
 #curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
@@ -39,7 +41,7 @@ def insert(index)
 	sess.headers['Host'] =  "index.bonsai.io"
 	sess.enable_debug "/tmp/patron_insert.debug"
 	sess.timeout = 100
-	coll.find().each_with_index do |i,j|
+	$coll.find().each_with_index do |i,j|
 		hash = i.to_h
 		puts hash.inspect
 		hash.delete("_id")
