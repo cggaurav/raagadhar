@@ -17,6 +17,7 @@
 	</div>
 </div>
 	<div class="row">
+	</br></br>
 	<p> <%=result["_source"]["Information"].gsub("â","'").gsub("Â","'")%></p></br>
 		<table class="table table-bordered table-striped">
 	        <tbody>
@@ -24,7 +25,11 @@
 	         	<% if k!="url" and k!="name" and k!="Information"%>
 	         	<tr>
 	         		<td><a href="/define/<%=k%>"><%=k%></a></td>
-	         		<td><%=v.gsub("â","\"").gsub("Â","'")%></td>
+	         		<% if v.kind_of?(Array) %>
+	         			<td><%=v.join(' ').gsub("â","\"").gsub("Â","'")%></td>
+	         		<% else %>
+	         			<td><%=v.gsub("â","\"").gsub("Â","'")%></td>
+	         		<% end %>
 	         	</tr>
 	         	<% end %>
 	         	<% end %>

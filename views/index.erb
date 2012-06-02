@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		var url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?fields=name&size=90";
+		var url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?fields=name&size=162";
 	    $.ajax({
 	        type: 'GET',
 	        url: url,
@@ -11,7 +11,7 @@
 	            for(var i=0; i<result.length;i++){
 	             	raagas.push(result[i].fields.name);
 	            }
-	            $('#actor').typeahead({ source: raagas, items: 5 });
+	            $('#actor').typeahead({ source: raagas, items: 8 });
 	         },
 	         error: function (xhr, ajaxOptions, thrownError){
 	             console.log(thrownError);
