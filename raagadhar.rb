@@ -5,7 +5,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'json'
 require 'timeout'
-require 'mail'
+require 'pony'
 
 def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
@@ -24,7 +24,7 @@ def get_spotify_playlist(raaga)
 
 	if(tracks == [])
 		nxt = raaga.split(' ')[1] if raaga.split(' ')[1]
-		puts nxt.inspect
+		# puts nxt.inspect
 		nxturl = "http://ws.spotify.com/search/1/track.json?q=raga #{nxt}"
 		begin
 			html = (Nokogiri::HTML(open(URI.escape(nxt), {:read_timeout => 1, "User-Agent" => "Mozilla/5.0"})))
@@ -40,7 +40,7 @@ def get_spotify_playlist(raaga)
 	tracks[0..10].each do |i|
 		list.push(i["href"].gsub("spotify:track:",""))
 	end
-	puts list.inspect
+	# puts list.inspect
 	listcsv = list.join(",")
 	listname = raaga.capitalize
 	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{listname}:#{listcsv}"
@@ -93,31 +93,22 @@ end
 
 post '/submit' do
 
-	Mail.defaults do
-	  delivery_method :smtp, {
-	    :address => 'smtp.sendgrid.net',
-	    :port => '587',
-	    :domain => 'heroku.com',
-	    :user_name => ENV['SENDGRID_USERNAME'],
-	    :password => ENV['SENDGRID_PASSWORD'],
-	    :authentication => :plain,
-	    :enable_starttls_auto => true
-	  }
-	end
-
-	# puts params.inspect
-	
-	name = params[:name]
-	email = params[:email]
-	feedback = params[:feedback]
-	mail = Mail.deliver do
-		to 'cggaurav@gmail.com'
-	  	from '#{name} at #{email}'
-	  	subject 'Feedback for Raagadhar!'
-	  	text_part do
-	    	body feedback
-	  	end
-	end
+	Pony.mail(
+		:from => params[:name] + "<" + params[:email] + ">",
+		:to => 'cggaurav@gmail.com',
+		:subject => params[:name] + " has contacted you",
+		:body => params[:feedback],
+		:port => '587',
+		:via => :smtp,
+		:via_options => { 
+		:address              => 'smtp.sendgrid.net', 
+		:port                 => '587', 
+		:enable_starttls_auto => true, 
+		:user_name            => ENV['SENDGRID_USERNAME'], 
+		:password             => ENV['SENDGRID_PASSWORD'], 
+		:authentication       => :plain, 
+		:domain               => ENV['SENDGRID_DOMAIN']
+	})
+		# puts params.inspect
 	redirect '/submit?status=true'
-
 end

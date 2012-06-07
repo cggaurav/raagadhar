@@ -13,6 +13,8 @@ GEM
       bson (~> 1.6.2)
     nokogiri (1.5.3)
     polyglot (0.3.3)
+    pony (1.4)
+      mail (> 2.0)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -31,8 +33,8 @@ PLATFORMS
 
 DEPENDENCIES
   json
-  mail
   mongo
   nokogiri
+  pony
   redis
   sinatra
