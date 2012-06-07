@@ -92,7 +92,7 @@ get '/submit' do
 end
 
 post '/submit' do
-
+	puts params.inspect
 	Pony.mail(
 		:from => params[:name] + "<" + params[:email] + ">",
 		:to => 'cggaurav@gmail.com',
@@ -109,6 +109,6 @@ post '/submit' do
 		:authentication       => :plain, 
 		:domain               => ENV['SENDGRID_DOMAIN']
 	})
-		# puts params.inspect
+		
 	redirect '/submit?status=true'
 end
