@@ -18,7 +18,7 @@
 </div>
 	<div class="row">
 	</br></br>
-	<p> <%=result["_source"]["Information"].gsub("â","'").gsub("Â","'")%></p></br>
+	<p> <%=result["_source"]["Information"].gsub("â","'").gsub("Â","'") if result["_source"]["Information"]%></p></br>
 		<table class="table table-bordered table-striped">
 	        <tbody>
 	         	<% result["_source"].each do |k,v| %>
