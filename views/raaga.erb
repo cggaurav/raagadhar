@@ -5,7 +5,8 @@
 <div class="row">
 	</br><h2> Raaga <%=result["_source"]["name"]%></h2></br>
 	<div class="span6">
-		<% if @spotifylist!=nil || @spotifylist=="" %>
+		<% @spotifylist = get_spotify_playlist(result["_source"]["name"])%>
+		<% if @spotifylist!=nil %>
 		<h2>On Spotify</h2></br>
 			<iframe src=<%=@spotifylist%> align="left"width="400" height="380" frameborder="0" allowtransparency="true"></iframe>
 		<% end %>

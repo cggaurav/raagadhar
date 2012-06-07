@@ -7,39 +7,48 @@ require 'json'
 require 'timeout'
 require 'mail'
 
-Mail.defaults do
-  delivery_method :smtp, {
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :domain => 'raagadhar.com',
-    :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
-    :authentication => 'plain',
-    :enable_starttls_auto => true
-  }
-end
-
 def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
 	raaga.gsub!("try","")
 	url = "http://ws.spotify.com/search/1/track.json?q=raga #{raaga}"
+	tracks = nil
 	begin
-		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 5, "User-Agent" => "Mozilla/5.0"})))
+		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
 	rescue Exception => e
 		puts "Oh my fucking God"
 		puts e.inspect
 		return nil
 	end
+
 	tracks = JSON.parse(html)["tracks"]
+
+	if(tracks == [])
+		first = raaga.split(' ')[0] if raaga.split(' ')[0]
+		url = "http://ws.spotify.com/search/1/track.json?q=#{first}"
+		begin
+			html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
+		rescue Exception => e
+			puts "Oh my fucking fucking God"
+			puts e.inspect
+			return nil
+		end
+		tracks = JSON.parse(html)["tracks"]
+	end
+
 	tracks.sort! { |a,b| a["popularity"] <=> b["popularity"]}
 	list = []
 	tracks[0..10].each do |i|
 		list.push(i["href"].gsub("spotify:track:",""))
 	end
+
+	if(list.length == 0)
+		return nil
+	end
+
 	listcsv = list.join(",")
 	listname = raaga.capitalize
 	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{listname}:#{listcsv}"	
-	puts return_url
+	# puts return_url
 	return_url
 end
 
@@ -75,7 +84,6 @@ get '/raaga' do
 		redirect '/'
 	else
 		raaga.downcase!
-		@spotifylist = get_spotify_playlist(raaga)
 		url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?q=name:#{raaga}"
 		@raaga_json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
 		erb :raaga if (@raaga_json)
@@ -89,17 +97,32 @@ get '/submit' do
 end
 
 post '/submit' do
-	puts params.inspect
+
+	Mail.defaults do
+	  delivery_method :smtp, {
+	    :address => 'smtp.sendgrid.net',
+	    :port => '587',
+	    :domain => 'heroku.com',
+	    :user_name => ENV['SENDGRID_USERNAME'],
+	    :password => ENV['SENDGRID_PASSWORD'],
+	    :authentication => :plain,
+	    :enable_starttls_auto => true
+	  }
+	end
+
+	# puts params.inspect
+	
 	name = params[:name]
 	email = params[:email]
 	feedback = params[:feedback]
 	mail = Mail.deliver do
 		to 'cggaurav@gmail.com'
-	  	from name + " <" + email + ">"
+	  	from '#{name} at #{email}'
 	  	subject 'Feedback for Raagadhar!'
 	  	text_part do
 	    	body feedback
 	  	end
 	end
 	redirect '/submit?status=true'
+
 end
