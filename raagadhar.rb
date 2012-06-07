@@ -24,9 +24,10 @@ def get_spotify_playlist(raaga)
 	raaga.gsub!("try","")
 	url = "http://ws.spotify.com/search/1/track.json?q=raga #{raaga}"
 	begin
-		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 4, "User-Agent" => "Mozilla/5.0"})))
-	rescue Timeout::Error
-		puts "TIMEOUT for #{url}"
+		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 5, "User-Agent" => "Mozilla/5.0"})))
+	rescue Exception => e
+		puts "Oh my fucking God"
+		puts e.inspect
 		return nil
 	end
 	tracks = JSON.parse(html)["tracks"]
@@ -87,7 +88,7 @@ get '/submit' do
 	erb :submit
 end
 
-post '/submit	' do
+post '/submit' do
 	puts params.inspect
 	name = params[:name]
 	email = params[:email]
