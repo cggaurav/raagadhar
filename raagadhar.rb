@@ -11,9 +11,9 @@ def get_spotify_playlist(raaga)
 #<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
 	raaga.gsub!("try","")
 	url = "http://ws.spotify.com/search/1/track.json?q=raga #{raaga}"
-	tracks = nil
+	html = ""
 	begin
-		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
+		html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 1, "User-Agent" => "Mozilla/5.0"})))
 	rescue Exception => e
 		puts "Oh my fucking God"
 		puts e.inspect
@@ -23,32 +23,27 @@ def get_spotify_playlist(raaga)
 	tracks = JSON.parse(html)["tracks"]
 
 	if(tracks == [])
-		first = raaga.split(' ')[0] if raaga.split(' ')[0]
-		url = "http://ws.spotify.com/search/1/track.json?q=#{first}"
+		nxt = raaga.split(' ')[1] if raaga.split(' ')[1]
+		puts nxt.inspect
+		nxturl = "http://ws.spotify.com/search/1/track.json?q=raga #{nxt}"
 		begin
-			html = (Nokogiri::HTML(open(URI.escape(url), {:read_timeout => 3, "User-Agent" => "Mozilla/5.0"})))
+			html = (Nokogiri::HTML(open(URI.escape(nxt), {:read_timeout => 1, "User-Agent" => "Mozilla/5.0"})))
 		rescue Exception => e
 			puts "Oh my fucking fucking God"
 			puts e.inspect
 			return nil
 		end
-		tracks = JSON.parse(html)["tracks"]
 	end
-
+	tracks = JSON.parse(html)["tracks"]
 	tracks.sort! { |a,b| a["popularity"] <=> b["popularity"]}
 	list = []
 	tracks[0..10].each do |i|
 		list.push(i["href"].gsub("spotify:track:",""))
 	end
-
-	if(list.length == 0)
-		return nil
-	end
-
+	puts list.inspect
 	listcsv = list.join(",")
 	listname = raaga.capitalize
-	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{listname}:#{listcsv}"	
-	# puts return_url
+	return_url = "https://embed.spotify.com/?uri=spotify:trackset:#{listname}:#{listcsv}"
 	return_url
 end
 
