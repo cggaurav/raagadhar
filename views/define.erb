@@ -4,10 +4,25 @@
 <div class="row">
 	<div class="span12">
 		<% if @definition %>
-			<h2><%=@definition["name"]%></h2></br>
-			<p><%=@definition["definition"].gsub("â","\"").gsub("Â","'")%></p>
+			<h2><%=@definition["name"].capitalize%></h2></br>
+			<p><%=@definition["definition"].gsub("â","\"").gsub("Â","'").gsub("$","<br />\n")%></p>
 			<% if @definition["url"] %>
 				</br><p><a href="<%=@definition["url"]%>">Source</a></p>
+			<% end %>
+			<% if @related[0] %>
+				<h3> Other related definitions </h3></br>
+				<h2><%=@related[0]["name"].capitalize%></h2></br>
+					<p><%=@related[0]["definition"].gsub("â","\"").gsub("Â","'").gsub("$","<br />\n")%></p>
+					<% if @related[0]["url"] %>
+						</br><p><a href="<%=@related[0]["url"]%>">Source</a></p>
+					<% end %>
+			<% end %>
+			<% if @related[1] %>
+				<h2><%=@related[1]["name"].capitalize%></h2></br>
+					<p><%=@related[1]["definition"].gsub("â","\"").gsub("Â","'").gsub("$","<br />\n")%></p>
+					<% if @related[1]["url"] %>
+						</br><p><a href="<%=@related[1]["url"]%>">Source</a></p>
+					<% end %>
 			<% end %>
 		<% else %>
 			<h4>Sorry, no information was found</h4></br>

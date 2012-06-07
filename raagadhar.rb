@@ -7,14 +7,6 @@ require 'json'
 require 'timeout'
 require 'mail'
 
-if ENV['MONGOHQ_URL']
-	uri = URI.parse(ENV['MONGOHQ_URL'])
-	conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-	db = conn.db(uri.path.gsub(/^\//, ''))
-else
-  	db = Mongo::Connection.new('localhost').db('raagadhar')
-end
-
 Mail.defaults do
   delivery_method :smtp, {
     :address => 'smtp.sendgrid.net',
@@ -50,12 +42,12 @@ def get_spotify_playlist(raaga)
 	return_url
 end
 
-raagas = db.collection('raagas')
-definitions = db.collection('definitions')
-dictionary = db.collection('dictionary')
-
 get '/' do
 	erb :index
+end
+
+get '/about' do
+	erb :about
 end
 
 get '/define/:raaga' do
@@ -66,6 +58,9 @@ get '/define/:raaga' do
 	json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
 	if(json[0])
 		@definition = json[0]["_source"]
+		@related = []
+		@related.push(json[1]["_source"]) if json[1]["_source"]!=nil
+		@related.push(json[2]["_source"]) if json[2]["_source"]!=nil
 	else
 		@definition = nil
 	end
