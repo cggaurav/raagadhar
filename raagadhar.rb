@@ -87,7 +87,7 @@ get '/submit' do
 	erb :submit
 end
 
-post '/donesubmitting' do
+post '/submit' do
 	puts params.inspect
 	name = params[:name]
 	email = params[:email]
