@@ -59,8 +59,8 @@ get '/define/:raaga' do
 	if(json[0])
 		@definition = json[0]["_source"]
 		@related = []
-		@related.push(json[1]["_source"]) if json[1]["_source"]!=nil
-		@related.push(json[2]["_source"]) if json[2]["_source"]!=nil
+		@related.push(json[1]["_source"]) if json[1]
+		@related.push(json[2]["_source"]) if json[2]
 	else
 		@definition = nil
 	end
