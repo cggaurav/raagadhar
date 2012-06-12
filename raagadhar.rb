@@ -81,10 +81,11 @@ get '/raaga' do
 		raaga.downcase!
 		url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?q=name:#{raaga}"
 		@raaga_json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
-		if (@raaga_json)
+		# puts @raaga_json
+		if (@raaga_json !=[])
 			erb :raaga 
 		else
-			redirect '/define/#{raaga}'
+			redirect "/define/%s" %raaga
 		end
 	end
 end
