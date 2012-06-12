@@ -8,6 +8,8 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
+
+
 article,
 aside,
 details,
@@ -5145,11 +5147,9 @@ a.badge:hover {
   margin-bottom: 0;
 }
 
-footer{
-  position: fixed;
-  bottom: 0px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
+.footer{
+  position: fixed; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
 }

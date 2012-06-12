@@ -1,17 +1,41 @@
 <script type="text/javascript">
+
+	function capitaliseFirstLetter(string)
+	{
+	    return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
 	$(document).ready(function(){
+		var raagas = [];
 		var url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?fields=name&size=162";
 	    $.ajax({
 	        type: 'GET',
 	        url: url,
 	        dataType: 'json',
 	        success: function(o){
-	        	var raagas = [];
 	        	result = o.hits.hits;
 	            for(var i=0; i<result.length;i++){
-	             	raagas.push(result[i].fields.name);
+	             	raagas.push(capitaliseFirstLetter(result[i].fields.name));
 	            }
-	            $('#actor').typeahead({ source: raagas, items: 8 });
+	            console.log(raagas);
+	            $('#actor').typeahead({ source: raagas, items: 13 });
+	         },
+	         error: function (xhr, ajaxOptions, thrownError){
+	             console.log(thrownError);
+	         }
+	    });
+	    var url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/definitions/_search/?fields=name&size=590";
+	    $.ajax({
+	        type: 'GET',
+	        url: url,
+	        dataType: 'json',
+	        success: function(o){
+	        	result = o.hits.hits;
+	            for(var i=0; i<result.length;i++){
+	             	raagas.push(capitaliseFirstLetter(result[i].fields.name));
+	            }
+	            console.log(raagas);
+	            $('#actor').typeahead({ source: raagas, items: 13 });
 	         },
 	         error: function (xhr, ajaxOptions, thrownError){
 	             console.log(thrownError);

@@ -22,8 +22,8 @@ def get_spotify_playlist(raaga)
 
 	tracks = JSON.parse(html)["tracks"]
 
-	if(tracks == [])
-		nxt = raaga.split(' ')[1] if raaga.split(' ')[1]
+	if(tracks == [] and raaga.split(' ')[1])
+		nxt = raaga.split(' ')[1]
 		# puts nxt.inspect
 		nxturl = "http://ws.spotify.com/search/1/track.json?q=raga #{nxt}"
 		begin
@@ -81,20 +81,19 @@ get '/raaga' do
 		raaga.downcase!
 		url = "http://index.bonsai.io/7bfy61vro8h8nothcjzz/test/_search/?q=name:#{raaga}"
 		@raaga_json = JSON.parse(Nokogiri::HTML(open(URI.escape(url))))["hits"]["hits"]
-		erb :raaga if (@raaga_json)
+		if (@raaga_json)
+			erb :raaga 
+		else
+			redirect '/define/#{raaga}'
+		end
 	end
 end
 
 
-get '/submit' do
-	@status = params[:status]
-	erb :submit
-end
-
 post '/submit' do
 	puts params.inspect
 	Pony.mail(
-		:from => params[:name] + "<" + params[:email] + ">",
+		:from => params[:email],
 		:to => 'cggaurav@gmail.com',
 		:subject => params[:name] + " has contacted you",
 		:body => params[:feedback],
@@ -108,7 +107,13 @@ post '/submit' do
 		:password             => ENV['SENDGRID_PASSWORD'], 
 		:authentication       => :plain, 
 		:domain               => ENV['SENDGRID_DOMAIN']
-	})
-		
+	})	
 	redirect '/submit?status=true'
 end
+
+get '/submit' do
+	@status = params[:status]
+	erb :submit
+end
+
+
